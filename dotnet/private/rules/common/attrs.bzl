@@ -128,11 +128,11 @@ COMMON_ATTRS = {
     ),
 }
 
-# These are attributes that are common across all libarary rules
+# These are attributes that are common across all library rules
 LIBRARY_COMMON_ATTRS = {
     "exports": attr.label_list(
         doc = """
-        List of targets to add to the dependencies of those that depend on this target. 
+        List of targets to add to the dependencies of those that depend on this target.
         Use this sparingly as it weakens the precision of the build graph.
         
         This attribute does nothing if you don't have strict dependencies enabled.""",
@@ -232,6 +232,7 @@ CSHARP_COMMON_ATTRS = dicts.add(
 CSHARP_LIBRARY_COMMON_ATTRS = dicts.add(
     CSHARP_COMMON_ATTRS,
     LIBRARY_COMMON_ATTRS,
+
 )
 
 # These are attributes that are common across all the binary C# rules
