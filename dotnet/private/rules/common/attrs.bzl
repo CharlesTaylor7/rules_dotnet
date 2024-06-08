@@ -225,6 +225,11 @@ CSHARP_COMMON_ATTRS = dicts.add(
             mandatory = False,
             default = ["CS1701", "CS1702"],
         ),
+        "implicit_usings": attr.bool(
+            doc = "Automatically generate `global using` statements for standard library namespaces, `System.Linq`, `System.Threading.Tasks` etc.",
+            mandatory = False,
+            default = False,
+      ),
     },
 )
 

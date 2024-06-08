@@ -18,6 +18,45 @@ load(
     "DotnetAssemblyRuntimeInfo",
 )
 
+def _write_implicit_usings(actions, label_name, dll_name):
+    """
+    Writes a file of implicit usings
+
+    Args:
+      actions: An actions module, usually from ctx.actions.
+      label_name: The label name.
+      dll_name: The assembly name.
+
+    Returns:
+      A File object for a generated .cs file
+    """
+
+    namespaces = [
+      "System",
+      "System.Linq",
+      "System.Collections",
+      "System.Collections.Generic",
+      "System.IO",
+      "System.Net.Http",
+      "System.Threading.Tasks",
+      "System.Threading",
+    ]
+
+    attrs = actions.args()
+    attrs.set_param_file_format(format = "multiline")
+
+    attrs.add_all(
+        namespaces,
+        format_each = "global using %s;"
+    )
+
+    output = actions.declare_file("%s/%s/implicit_usings.cs" % (label_name, dll_name))
+
+    actions.write(output, attrs)
+
+    return output
+
+
 def _write_internals_visible_to_csharp(actions, label_name, dll_name, others):
     """Write a .cs file containing InternalsVisibleTo attributes.
 
@@ -62,6 +101,7 @@ def AssemblyAction(
         exports,
         targeting_pack,
         internals_visible_to,
+        implicit_usings,
         keyfile,
         langversion,
         resources,
@@ -102,6 +142,7 @@ def AssemblyAction(
         exports: List of exported targets.
         targeting_pack: The targeting pack being used.
         internals_visible_to: An optional list of assemblies that can see this assemblies internal symbols.
+        implicit_usings: Autogenerate `global using` statements for core dotnet namespaces.
         keyfile: Specifies a strong name key file of the assembly.
         langversion: Specify language version: Default, ISO-1, ISO-2, 3, 4, 5, 6, 7, 7.1, 7.2, 7.3, or Latest
         resources: The list of resouces to be embedded in the assembly.
@@ -162,6 +203,16 @@ def AssemblyAction(
 
     # Appsettings
     out_appsettings = copy_files_to_dir(target_name, actions, is_windows, appsetting_files, out_dir)
+
+    if implicit_usings:
+      implicit_usings = _write_implicit_usings(
+          actions,
+          label_name = target_name,
+          dll_name = assembly_name,
+      )
+      srcs = srcs + [implicit_usings]
+        # + [ "//dotnet/private/rules/csharp:ImplicitUsings.cs"]
+
 
     if len(internals_visible_to) == 0:
         _compile(

@@ -68,3 +68,11 @@ bzl_library(
         ":test",
     ],
 )
+
+
+exports_files(
+    [
+        "ImplicitUsings.cs",
+    ],
+    visibility = ["//visibility:public"],
+)
