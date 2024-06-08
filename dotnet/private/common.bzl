@@ -210,7 +210,7 @@ def _format_ref_with_overrides(assembly):
     return "-r:" + assembly.path
 
 def format_ref_arg(args, refs):
-    """Takes 
+    """Takes
 
     Args:
         args: The args object that will be sent into the compilation action

@@ -134,14 +134,14 @@ LIBRARY_COMMON_ATTRS = {
         doc = """
         List of targets to add to the dependencies of those that depend on this target.
         Use this sparingly as it weakens the precision of the build graph.
-        
+
         This attribute does nothing if you don't have strict dependencies enabled.""",
         default = [],
         providers = [DotnetAssemblyCompileInfo, DotnetAssemblyRuntimeInfo],
     ),
 }
 
-# These are attributes that are common across all binary/test rules
+# These are attributes that are common across all binary rules
 BINARY_COMMON_ATTRS = {
     "roll_forward_behavior": attr.string(
         doc = "The roll forward behavior that should be used: https://learn.microsoft.com/en-us/dotnet/core/versions/selection#control-roll-forward-behavior",
@@ -224,6 +224,7 @@ CSHARP_COMMON_ATTRS = dicts.add(
             doc = "List of warnings that should be ignored",
             mandatory = False,
             default = ["CS1701", "CS1702"],
+
         ),
         "implicit_usings": attr.bool(
             doc = "Automatically generate `global using` statements for standard library namespaces, `System.Linq`, `System.Threading.Tasks` etc.",
