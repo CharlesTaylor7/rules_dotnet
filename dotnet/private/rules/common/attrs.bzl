@@ -224,7 +224,10 @@ CSHARP_COMMON_ATTRS = dicts.add(
             doc = "List of warnings that should be ignored",
             mandatory = False,
             default = ["CS1701", "CS1702"],
-
+        ),
+        "framework_reference": attr.string(
+            doc = "Framework",
+            mandatory = False,
         ),
         "implicit_usings": attr.bool(
             doc = "Automatically generate `global using` statements for standard library namespaces, `System.Linq`, `System.Threading.Tasks` etc.",

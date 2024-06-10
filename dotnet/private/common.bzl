@@ -382,6 +382,8 @@ def get_highest_compatible_target_framework(incoming_tfm, tfms):
         if tfm in tfms:
             return tfm
 
+    print("incoming", incoming_tfm)
+    print("tfms", tfms)
     return None
 
 def get_highest_compatible_runtime_identifier(incoming_rid, rids):

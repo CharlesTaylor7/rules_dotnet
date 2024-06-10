@@ -478,6 +478,7 @@ def _compile(
     args.add_all(srcs)
 
     # resources
+    print(resources);
     args.add_all(resources, format_each = "/resource:%s")
 
     # defines
